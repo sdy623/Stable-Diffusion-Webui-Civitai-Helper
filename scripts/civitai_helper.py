@@ -41,7 +41,7 @@ def on_ui_settings():
     ch_section = ("civitai_helper", "Civitai Helper")
     # settings
     shared.opts.add_option("ch_max_size_preview", shared.OptionInfo(True, "Download Max Size Preview", gr.Checkbox, {"interactive": True}, section=ch_section))
-    shared.opts.add_option("ch_skip_nsfw_preview", shared.OptionInfo(False, "Skip NSFW Preview Images", gr.Checkbox, {"interactive": True}, section=ch_section))
+    shared.opts.add_option("ch_skip_nsfw_preview", shared.OptionInfo("Soft", "Skip NSFW Level Above Preview Images", gr.Dropdown, {"choices":  ["Soft", "Mature", "X", "Do not Skip"]}, section=ch_section))
     shared.opts.add_option("ch_open_url_with_js", shared.OptionInfo(True, "Open Url At Client Side", gr.Checkbox, {"interactive": True}, section=ch_section))
     shared.opts.add_option("ch_proxy", shared.OptionInfo("", "Civitai Helper Proxy", gr.Textbox, {"interactive": True, "lines":1, "info":"format: socks5h://127.0.0.1:port"}, section=ch_section))
 
@@ -65,7 +65,7 @@ def on_ui_tabs():
 
     # get settings
     max_size_preview = shared.opts.data.get("ch_max_size_preview", True)
-    skip_nsfw_preview = shared.opts.data.get("ch_skip_nsfw_preview", False)
+    skip_nsfw_preview = shared.opts.data.get("ch_skip_nsfw_preview", "Soft")
     open_url_with_js = shared.opts.data.get("ch_open_url_with_js", True)
     proxy = shared.opts.data.get("ch_proxy", "")
 
