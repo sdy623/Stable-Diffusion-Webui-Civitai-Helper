@@ -79,11 +79,12 @@ def load():
     return
 
 # save setting from parameter
-def save_from_input(max_size_preview, skip_nsfw_preview, open_url_with_js, proxy):
+def save_from_input(max_size_preview, skip_nsfw_preview, sqindex_preview, open_url_with_js, proxy):
     global data
     data = {
         "model":{
             "max_size_preview": max_size_preview,
+            "sqindex_preview": sqindex_preview,
             "skip_nsfw_preview": skip_nsfw_preview
         },
         "general":{

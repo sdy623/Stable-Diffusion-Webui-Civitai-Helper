@@ -316,7 +316,7 @@ def should_skip(selected_level, current_level):
 
 # get preview image by model path
 # image will be saved to file, so no return
-def get_preview_image_by_model_path(model_path:str, max_size_preview, skip_nsfw_preview):
+def get_preview_image_by_model_path(model_path:str, max_size_preview, skip_nsfw_preview, sqindex_preview):
     if not model_path:
         util.printD("model_path is empty")
         return
@@ -359,8 +359,17 @@ def get_preview_image_by_model_path(model_path:str, max_size_preview, skip_nsfw_
                                 if "width" in img_dict.keys():
                                     if img_dict["width"]:
                                         img_url = get_full_size_image_url(img_url, img_dict["width"])
-
-                            util.download_file(img_url, sec_preview)
+                            if sqindex_preview is True:
+                                util.download_file(img_url, sec_preview, 
+                                                   image_processor=util.make_sqindex, 
+                                                   extra_param={
+                                                        'model_name': model_info['model']['name'],
+                                                        'author_name': model_info['model']['creator'],
+                                                        'model_type': model_info['model']['type'], 
+                                                        'save_safetensor_jpg': True
+                                                   })
+                            else:
+                                util.download_file(img_url, sec_preview)
                             # we only need 1 preview image
                             break
 

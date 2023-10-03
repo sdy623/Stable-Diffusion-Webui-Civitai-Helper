@@ -178,7 +178,7 @@ def use_preview_image_prompt(msg):
 
 # download model's new verson by model path, version id and download url
 # output is a md log
-def dl_model_new_version(msg, max_size_preview, skip_nsfw_preview):
+def dl_model_new_version(msg, max_size_preview, sqindex_preview, skip_nsfw_preview):
     util.printD("Start dl_model_new_version")
 
     output = ""
@@ -249,7 +249,7 @@ def dl_model_new_version(msg, max_size_preview, skip_nsfw_preview):
     model.write_model_info(info_file, version_info)
 
     # then, get preview image
-    civitai.get_preview_image_by_model_path(new_model_path, max_size_preview, skip_nsfw_preview)
+    civitai.get_preview_image_by_model_path(new_model_path, max_size_preview, sqindex_preview, skip_nsfw_preview)
     
     output = "Done. Model downloaded to: " + new_model_path
     util.printD(output)

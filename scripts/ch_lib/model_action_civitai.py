@@ -10,7 +10,7 @@ from . import downloader
 
 # scan model to generate SHA256, then use this SHA256 to get model info from civitai
 # return output msg
-def scan_model(scan_model_types, max_size_preview, skip_nsfw_preview):
+def scan_model(scan_model_types, max_size_preview, sqindex_preview, skip_nsfw_preview):
     util.printD("Start scan_model")
     output = ""
 
@@ -88,7 +88,7 @@ def scan_model(scan_model_types, max_size_preview, skip_nsfw_preview):
                     model_count = model_count+1
 
                     # check preview image
-                    civitai.get_preview_image_by_model_path(item, max_size_preview, skip_nsfw_preview)
+                    civitai.get_preview_image_by_model_path(item, max_size_preview, skip_nsfw_preview, sqindex_preview)
                     image_count = image_count+1
 
 
@@ -104,7 +104,7 @@ def scan_model(scan_model_types, max_size_preview, skip_nsfw_preview):
 
 # Get model info by model type, name and url
 # output is log info to display on markdown component
-def get_model_info_by_input(model_type, model_name, model_url_or_id, max_size_preview, skip_nsfw_preview):
+def get_model_info_by_input(model_type, model_name, model_url_or_id, max_size_preview, sqindex_preview, skip_nsfw_preview):
     output = ""
     # parse model id
     model_id = civitai.get_model_id_from_url(model_url_or_id)
@@ -146,7 +146,7 @@ def get_model_info_by_input(model_type, model_name, model_url_or_id, max_size_pr
     util.printD("Saved model info to: "+ info_file)
 
     # check preview image
-    civitai.get_preview_image_by_model_path(model_path, max_size_preview, skip_nsfw_preview)
+    civitai.get_preview_image_by_model_path(model_path, max_size_preview, sqindex_preview, skip_nsfw_preview)
 
     output = "Model Info saved to: " + info_file
     return output
@@ -387,7 +387,7 @@ def get_id_and_dl_url_by_version_str(version_str:str, model_info:dict) -> tuple:
 
 # download model from civitai by input
 # output to markdown log
-def dl_model_by_input(model_info:dict, model_type:str, subfolder_str:str, version_str:str, dl_all_bool:bool, max_size_preview:bool, skip_nsfw_preview:bool) -> str:
+def dl_model_by_input(model_info:dict, model_type:str, subfolder_str:str, version_str:str, dl_all_bool:bool, max_size_preview:bool, sqindex_preview:bool, skip_nsfw_preview:str) -> str:
 
     output = ""
 
@@ -511,7 +511,7 @@ def dl_model_by_input(model_info:dict, model_type:str, subfolder_str:str, versio
     model.write_model_info(info_file, version_info)
 
     # then, get preview image
-    civitai.get_preview_image_by_model_path(filepath, max_size_preview, skip_nsfw_preview)
+    civitai.get_preview_image_by_model_path(filepath, max_size_preview, skip_nsfw_preview, sqindex_preview)
     
     output = "Done. Model downloaded to: " + filepath
     util.printD(output)

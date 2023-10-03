@@ -41,6 +41,7 @@ def on_ui_settings():
     ch_section = ("civitai_helper", "Civitai Helper")
     # settings
     shared.opts.add_option("ch_max_size_preview", shared.OptionInfo(True, "Download Max Size Preview", gr.Checkbox, {"interactive": True}, section=ch_section))
+    shared.opts.add_option("ch_sqindex_preview", shared.OptionInfo(True, "Download Square Index Preview Image", gr.Checkbox, {"interactive": True}, section=ch_section))
     shared.opts.add_option("ch_skip_nsfw_preview", shared.OptionInfo("Soft", "Skip NSFW Level Above Preview Images", gr.Dropdown, {"choices":  ["Soft", "Mature", "X", "Do not Skip"]}, section=ch_section))
     shared.opts.add_option("ch_open_url_with_js", shared.OptionInfo(True, "Open Url At Client Side", gr.Checkbox, {"interactive": True}, section=ch_section))
     shared.opts.add_option("ch_proxy", shared.OptionInfo("", "Civitai Helper Proxy", gr.Textbox, {"interactive": True, "lines":1, "info":"format: socks5h://127.0.0.1:port"}, section=ch_section))
@@ -65,12 +66,14 @@ def on_ui_tabs():
 
     # get settings
     max_size_preview = shared.opts.data.get("ch_max_size_preview", True)
+    sqindex_preview = shared.opts.data.get("ch_sqindex_preview", True)
     skip_nsfw_preview = shared.opts.data.get("ch_skip_nsfw_preview", "Soft")
     open_url_with_js = shared.opts.data.get("ch_open_url_with_js", True)
     proxy = shared.opts.data.get("ch_proxy", "")
 
     util.printD("Settings:")
     util.printD("max_size_preview: " + str(max_size_preview))
+    util.printD("sqindex_preview: " + str(sqindex_preview))
     util.printD("skip_nsfw_preview: " + str(skip_nsfw_preview))
     util.printD("open_url_with_js: " + str(open_url_with_js))
     util.printD("proxy: " + str(proxy))
@@ -84,22 +87,22 @@ def on_ui_tabs():
 
     # ====Event's function====
     def scan_model(scan_model_types):
-        return model_action_civitai.scan_model(scan_model_types, max_size_preview, skip_nsfw_preview)
+        return model_action_civitai.scan_model(scan_model_types, max_size_preview, sqindex_preview, skip_nsfw_preview)
     
     def get_model_info_by_input(model_type_drop, model_name_drop, model_url_or_id_txtbox):
-        return model_action_civitai.get_model_info_by_input(model_type_drop, model_name_drop, model_url_or_id_txtbox, max_size_preview, skip_nsfw_preview)
+        return model_action_civitai.get_model_info_by_input(model_type_drop, model_name_drop, model_url_or_id_txtbox, max_size_preview, sqindex_preview, skip_nsfw_preview)
 
     def dl_model_by_input(dl_model_info, dl_model_type_txtbox, dl_subfolder_drop, dl_version_drop, dl_all_ckb):
-        return model_action_civitai.dl_model_by_input(dl_model_info, dl_model_type_txtbox, dl_subfolder_drop, dl_version_drop, dl_all_ckb, max_size_preview, skip_nsfw_preview)
+        return model_action_civitai.dl_model_by_input(dl_model_info, dl_model_type_txtbox, dl_subfolder_drop, dl_version_drop, dl_all_ckb, max_size_preview, sqindex_preview, skip_nsfw_preview)
 
     def check_models_new_version_to_md(dl_model_info, dl_model_type_txtbox, dl_subfolder_drop, dl_version_drop, dl_all_ckb):
-        return model_action_civitai.check_models_new_version_to_md(dl_model_info, dl_model_type_txtbox, dl_subfolder_drop, dl_version_drop, dl_all_ckb, max_size_preview, skip_nsfw_preview)
+        return model_action_civitai.check_models_new_version_to_md(dl_model_info, dl_model_type_txtbox, dl_subfolder_drop, dl_version_drop, dl_all_ckb, max_size_preview, sqindex_preview, skip_nsfw_preview)
 
     def open_model_url(js_msg_txtbox):
         return js_action_civitai.open_model_url(js_msg_txtbox, open_url_with_js)
 
     def dl_model_new_version(js_msg_txtbox, max_size_preview):
-        return js_action_civitai.dl_model_new_version(js_msg_txtbox, max_size_preview, skip_nsfw_preview)
+        return js_action_civitai.dl_model_new_version(js_msg_txtbox, max_size_preview, sqindex_preview, skip_nsfw_preview)
 
 
     def get_model_names_by_input(model_type, empty_info_only):
